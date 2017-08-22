@@ -27,6 +27,8 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
     
     open var configureLinkAttribute: ConfigureLinkAttribute?
 
+    open var configureAttribute: ((NSMutableAttributedString) -> Void)?
+
     @IBInspectable open var mentionColor: UIColor = .blue {
         didSet { updateTextStorage(parseText: false) }
     }
@@ -280,6 +282,7 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
         }
 
         addLinkAttribute(mutAttrString)
+        configureAttribute?(mutAttrString)
         textStorage.setAttributedString(mutAttrString)
         _customizing = true
         text = mutAttrString.string
